@@ -37,14 +37,14 @@ class M3U8Downloader:
         self.m3u8 = m3u8.load(uri=uri, timeout=timeout, headers=headers)
 
     def download(self, output='output.ts'):
-        """Start downloading and merging from the given m3u8 file.
+        """Start downloading and merging with the given m3u8 file.
 
         Args:
             output (:obj:`str`): The path to output. Defaults to ``output.ts``
         """
         if self.m3u8.is_variant:
 
-            print('There are multiple m3u8 file listed by this file.')
+            print('There are multiple m3u8 files listed in this file.')
             print('Select one to download.')
             print()
 
@@ -54,12 +54,12 @@ class M3U8Downloader:
             try:
                 fetch_index = int(input('Index> '))
 
-                dounloader = M3U8Downloader(
+                downloader = M3U8Downloader(
                     self.m3u8.playlists[fetch_index].absolute_uri,
                     ffmpeg_path=self.ffmpeg_path,
                     ffmpeg_loglevel=self.ffmpeg_loglevel,
                 )
-                dounloader.download(output)
+                downloader.download(output)
             except (ValueError, IndexError):
                 print('Invalid index.')
 
@@ -101,7 +101,7 @@ def main():
     """Parse the arguments to start the download.
 
     Parse the arguments to construct the M3U8Downloader object, then start
-    downloading from the given m3u8 file.
+    downloading with the given m3u8 file.
     """
     parser = argparse.ArgumentParser()
     parser.add_argument('uri', help='URI of the m3u8 file')
@@ -118,7 +118,7 @@ def main():
     args = parser.parse_args()
 
     if not args.overwrite and os.path.isfile(args.output):
-        print('ERROR: The file "{}" is already exist.'.format(args.output))
+        print('ERROR: File "{}" already exists.'.format(args.output))
         return
 
     downloader = M3U8Downloader(
